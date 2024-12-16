@@ -17,27 +17,14 @@
 
             <div class="container">
                 <jsp:include page="../layout/navigation.jsp" />
-
+                <form action="/analyze/url" method="post">
+                    <div class="form-group">
+                        <label for="target">Nhập URL/Đường dẫn:</label>
+                        <input type="text" id="target" name="target" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Phân tích</button>
+                </form>
             </div>
-
-            <form action="/analyze" method="post">
-                <div class="form-group">
-                    <label for="type">Loại phân tích:</label>
-                    <select id="type" name="type" class="form-control" required>
-                        <option value="url">URL</option>
-                        <option value="file">File</option>
-                        <option value="domain">Domain</option>
-                        <option value="ip">IP</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="target">Nhập URL/Đường dẫn:</label>
-                    <input type="text" id="target" name="target" class="form-control" required>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-block">Phân tích</button>
-            </form>
         </div>
 
         <!-- Thêm Bootstrap JS và Popper.js từ CDN (nếu cần tính năng như dropdowns, modals) -->
