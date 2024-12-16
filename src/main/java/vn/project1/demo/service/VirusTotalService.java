@@ -109,4 +109,44 @@ public class VirusTotalService {
         }
 
     }
+
+    public String getIpAddressReport(String ipAdress) {
+        String endPoint = "https://www.virustotal.com/api/v3/ip_addresses/" + ipAdress;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(endPoint))
+                .header("accept", "application/json")
+                .header("x-apikey", API_KEY)
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        try {
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+                    HttpResponse.BodyHandlers.ofString());
+            return response.body();
+        } catch (Exception e) {
+            // Xử lý lỗi
+            System.err.println("Unexpected error: " + e.getMessage());
+            throw new RuntimeException("Unexpected error occurred: " + e.getMessage());
+        }
+    }
+
+    public String getDomainReport(String domain) {
+        String endPoint = "https://www.virustotal.com/api/v3/domains/" + domain;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(endPoint))
+                .header("accept", "application/json")
+                .header("x-apikey", API_KEY)
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        try {
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+                    HttpResponse.BodyHandlers.ofString());
+            return response.body();
+        } catch (Exception e) {
+            // Xử lý lỗi
+            System.err.println("Unexpected error: " + e.getMessage());
+            throw new RuntimeException("Unexpected error occurred: " + e.getMessage());
+        }
+    }
 }

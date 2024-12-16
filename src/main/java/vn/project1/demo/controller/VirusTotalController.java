@@ -20,11 +20,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class VirusTotalController {
 
     private final VirusTotalService virusTotalService;
-    private final AnalysisResultService analysisResultService;
 
-    public VirusTotalController(VirusTotalService virusTotalService, AnalysisResultService analysisResultService) {
+    public VirusTotalController(VirusTotalService virusTotalService) {
         this.virusTotalService = virusTotalService;
-        this.analysisResultService = analysisResultService;
     }
 
     @GetMapping("/")
@@ -83,6 +81,56 @@ public class VirusTotalController {
             AnalysisResult analysisResult = new AnalysisResult();
             analysisResult.setType("file");
             analysisResult.setTarget(file.getOriginalFilename());
+            analysisResult.setResult(result);
+            model.addAttribute("analysisResult", analysisResult);
+
+            return "virustotal/result"; // Hiển thị kết quả
+        } catch (Exception e) {
+            model.addAttribute("error", "Lỗi khi phân tích: " + e.getMessage());
+            return "virustotal/error"; // Hiển thị trang lỗi
+        }
+    }
+
+    @GetMapping("/analyze/ip")
+    public String getIpPage(Model model) {
+        return "ips/show";
+    }
+
+    @PostMapping("/analyze/ip")
+    public String analyzeIp(@RequestParam("target") String target, Model model) {
+        try {
+            // Gọi service để phân tích URL
+            String result = virusTotalService.getIpAddressReport(target);
+
+            // Lưu kết quả phân tích
+            AnalysisResult analysisResult = new AnalysisResult();
+            analysisResult.setType("ip_address");
+            analysisResult.setTarget(target);
+            analysisResult.setResult(result);
+            model.addAttribute("analysisResult", analysisResult);
+
+            return "virustotal/result"; // Hiển thị kết quả
+        } catch (Exception e) {
+            model.addAttribute("error", "Lỗi khi phân tích: " + e.getMessage());
+            return "virustotal/error"; // Hiển thị trang lỗi
+        }
+    }
+
+    @GetMapping("/analyze/domain")
+    public String getDomainPage(Model model) {
+        return "domain/show";
+    }
+
+    @PostMapping("/analyze/domain")
+    public String analyzeDomain(@RequestParam("target") String target, Model model) {
+        try {
+            // Gọi service để phân tích URL
+            String result = virusTotalService.getDomainReport(target);
+
+            // Lưu kết quả phân tích
+            AnalysisResult analysisResult = new AnalysisResult();
+            analysisResult.setType("domain");
+            analysisResult.setTarget(target);
             analysisResult.setResult(result);
             model.addAttribute("analysisResult", analysisResult);
 
