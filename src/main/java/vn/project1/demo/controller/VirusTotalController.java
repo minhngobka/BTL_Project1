@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import vn.project1.demo.domain.AnalysisResult;
-import vn.project1.demo.service.AnalysisResultService;
 import vn.project1.demo.service.VirusTotalService;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -75,7 +74,7 @@ public class VirusTotalController {
     public String analyzeFile(@RequestParam("file") MultipartFile file, Model model) {
         try {
             // Gọi service để phân tích URL
-            String result = virusTotalService.analyzeFile(file);
+            String result = virusTotalService.getFileReport(file);
 
             // Lưu kết quả phân tích
             AnalysisResult analysisResult = new AnalysisResult();

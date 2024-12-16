@@ -9,12 +9,9 @@ import vn.project1.demo.repository.AnalysisResultRepository;
 public class AnalysisResultService {
 
     private final AnalysisResultRepository analysisResultRepository;
-    private final VirusTotalService virusTotalService;
 
-    public AnalysisResultService(AnalysisResultRepository analysisResultRepository,
-            VirusTotalService virusTotalService) {
+    public AnalysisResultService(AnalysisResultRepository analysisResultRepository) {
         this.analysisResultRepository = analysisResultRepository;
-        this.virusTotalService = virusTotalService;
     }
 
     public void handleSaveAnalysisResult(AnalysisResult analysisResult) {

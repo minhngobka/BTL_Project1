@@ -1,6 +1,5 @@
 package vn.project1.demo.service;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -15,6 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class VirusTotalService {
 
     private static final String API_KEY = "ec560c6ca3d0750d70f05ec997d589c008715672f1dc11bdf78dd0ce5ebd2ab4";
+
+    private final MultipartFileToSHA256Service multipartFileToSHA256Service;
+
+    public VirusTotalService(MultipartFileToSHA256Service multipartFileToSHA256Service) {
+        this.multipartFileToSHA256Service = multipartFileToSHA256Service;
+    }
 
     public String getUrlReport(String urlId) {
         String endPoint = "https://www.virustotal.com/api/v3/urls/" + urlId;
@@ -62,52 +67,33 @@ public class VirusTotalService {
         }
     }
 
-    public String analyzeFile(MultipartFile file) {
-        String endPoint = "https://www.virustotal.com/api/v3/files";
-
-        HttpClient client = HttpClient.newHttpClient();
-
-        // Tạo một boundary ngẫu nhiên
-        String boundary = "----Boundary" + System.currentTimeMillis();
-
-        // Tạo body multipart/form-data
-        StringBuilder body = new StringBuilder();
+    public String getFileReport(MultipartFile file) {
+        String scanFile = "";
         try {
-            // Phần mở đầu - boundary và thông tin file
-            body.append("--").append(boundary).append("\r\n");
-            body.append("Content-Disposition: form-data; name=\"file\"; filename=\"")
-                    .append(file.getOriginalFilename()).append("\"\r\n");
-            body.append("Content-Type: application/octet-stream\r\n\r\n");
-
-            // Đọc nội dung file vào body
-            body.append(new String(file.getBytes(), StandardCharsets.UTF_8)); // Nội dung tệp
-
-            // Kết thúc boundary
-            body.append("\r\n--").append(boundary).append("--\r\n");
-
-            // Tạo HttpRequest
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(endPoint))
-                    .header("accept", "application/json")
-                    .header("x-apikey", API_KEY) // API Key của bạn
-                    .header("Content-Type", "multipart/form-data; boundary=" + boundary) // Boundary trong Content-Type
-                    .POST(HttpRequest.BodyPublishers.ofString(body.toString())) // Gửi body dưới dạng chuỗi
-                    .build();
-
-            // Gửi yêu cầu và nhận phản hồi
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() == 200) {
-                return response.body(); // Trả về kết quả quét tệp từ VirusTotal
-            } else {
-                throw new RuntimeException("API Error: " + response.statusCode() + " - " + response.body());
-            }
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error during file scan: " + e.getMessage(), e);
+            scanFile = this.multipartFileToSHA256Service.generateSHA256(file);
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println("Error MultipartFileToSHA256");
         }
+        String endPoint = "https://www.virustotal.com/api/v3/files/" + scanFile;
 
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(endPoint))
+                .header("accept", "application/json")
+                .header("x-apikey", "ec560c6ca3d0750d70f05ec997d589c008715672f1dc11bdf78dd0ce5ebd2ab4")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        // Gửi yêu cầu POST tới VirusTotal
+        try {
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+                    HttpResponse.BodyHandlers.ofString());
+            return response.body();
+        } catch (Exception e) {
+            // Xử lý lỗi
+            System.err.println("Unexpected error: " + e.getMessage());
+            throw new RuntimeException("Unexpected error occurred: " + e.getMessage());
+        }
     }
 
     public String getIpAddressReport(String ipAdress) {
