@@ -20,6 +20,9 @@
                     <p>Loại: ${analysisResult.type}</p>
                     <p>Đối tượng: ${analysisResult.target}</p>
                     <p>Kết quả: ${analysisResult.result}</p>
+                    <div id="jsonDisplay">
+                        <!-- JSON will be displayed here -->
+                    </div>
                     <a href="/" class="btn btn-secondary">Phân tích lại</a>
                 </div>
             </div>
@@ -29,6 +32,17 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script>
+            // Chuỗi JSON từ JSP
+            var jsonString = '${analysisResult.result}'; // Dữ liệu từ server
+
+            // Chuyển chuỗi thành đối tượng JSON
+            var jsonObject = JSON.parse(jsonString);
+
+            // Hiển thị JSON dưới dạng có định dạng
+            document.getElementById("jsonDisplay").innerHTML = "<pre>" + JSON.stringify(jsonObject, null, 4) + "</pre>";
+        </script>
     </body>
 
     </html>
