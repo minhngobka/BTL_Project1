@@ -139,7 +139,7 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header text-center">
-                            <h4><i class="fas fa-globe"></i> Analyze URL</h4>
+                            <h4><i class="fas fa-link"></i> Analyze URL</h4>
                         </div>
                         <div class="card-body">
                             <form action="/analyze/url" method="post">

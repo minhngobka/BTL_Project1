@@ -58,6 +58,10 @@ public class VirusTotalController {
             analysisResult.setResult(result);
             model.addAttribute("analysisResult", analysisResult);
 
+            // Tạo biểu đồ từ dịch vụ và truyền vào model
+            String chartImage = this.virusTotalService.creatBarChart(result, target);
+            model.addAttribute("chart", chartImage);
+
             return "virustotal/result"; // Hiển thị kết quả
         } catch (Exception e) {
             model.addAttribute("error", "Lỗi khi phân tích: " + e.getMessage());
@@ -82,6 +86,10 @@ public class VirusTotalController {
             analysisResult.setTarget(file.getOriginalFilename());
             analysisResult.setResult(result);
             model.addAttribute("analysisResult", analysisResult);
+
+            // Tạo biểu đồ từ dịch vụ và truyền vào model
+            String chartImage = this.virusTotalService.creatBarChart(result, file.getOriginalFilename());
+            model.addAttribute("chart", chartImage);
 
             return "virustotal/result"; // Hiển thị kết quả
         } catch (Exception e) {
@@ -108,6 +116,10 @@ public class VirusTotalController {
             analysisResult.setResult(result);
             model.addAttribute("analysisResult", analysisResult);
 
+            // Tạo biểu đồ từ dịch vụ và truyền vào model
+            String chartImage = this.virusTotalService.creatBarChart(result, target);
+            model.addAttribute("chart", chartImage);
+
             return "virustotal/result"; // Hiển thị kết quả
         } catch (Exception e) {
             model.addAttribute("error", "Lỗi khi phân tích: " + e.getMessage());
@@ -133,11 +145,14 @@ public class VirusTotalController {
             analysisResult.setResult(result);
             model.addAttribute("analysisResult", analysisResult);
 
+            // Tạo biểu đồ từ dịch vụ và truyền vào model
+            String chartImage = this.virusTotalService.creatBarChart(result, target);
+            model.addAttribute("chart", chartImage);
+
             return "virustotal/result"; // Hiển thị kết quả
         } catch (Exception e) {
             model.addAttribute("error", "Lỗi khi phân tích: " + e.getMessage());
             return "virustotal/error"; // Hiển thị trang lỗi
         }
     }
-
 }

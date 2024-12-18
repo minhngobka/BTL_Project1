@@ -1,14 +1,23 @@
 package vn.project1.demo.service;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.Map;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtils;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class VirusTotalService {
@@ -135,4 +144,60 @@ public class VirusTotalService {
             throw new RuntimeException("Unexpected error occurred: " + e.getMessage());
         }
     }
+
+    public String creatBarChart(String response, String target) {
+        try {
+            // Khởi tạo ObjectMapper của Jackson
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            // Đọc chuỗi JSON vào Map
+            Map<String, Object> jsonMap = objectMapper.readValue(response, Map.class);
+
+            // Lấy đối tượng "data" dưới dạng Map
+            Map<String, Object> dataMap = (Map<String, Object>) jsonMap.get("data");
+
+            // Lấy đối tượng "attributes" dưới dạng Map
+            Map<String, Object> attributesMap = (Map<String, Object>) dataMap.get("attributes");
+
+            // Lấy đối tượng "last_analysis_stats" dưới dạng Map
+            Map<String, Object> statsMap = (Map<String, Object>) attributesMap.get("last_analysis_stats");
+
+            // Truy xuất các giá trị của các khóa "malicious", "undetected", "suspicious",
+            // "timeout"
+            int malicious = (Integer) statsMap.getOrDefault("malicious", 0);
+            int undetected = (Integer) statsMap.getOrDefault("undetected", 0);
+            int harmless = (Integer) statsMap.getOrDefault("harmless", 0);
+            int suspicious = (Integer) statsMap.getOrDefault("suspicious", 0);
+            int timeout = (Integer) statsMap.getOrDefault("timeout", 0);
+
+            // Tạo dataset cho biểu đồ cột
+            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+            dataset.addValue(malicious, "Results", "Malicious");
+            dataset.addValue(undetected, "Results", "Undetected");
+            dataset.addValue(harmless, "Results", "harmless");
+            dataset.addValue(suspicious, "Results", "Suspicious");
+            dataset.addValue(timeout, "Results", "Timeout");
+
+            // Tạo biểu đồ cột
+            JFreeChart barChart = ChartFactory.createBarChart(
+                    "VirusTotal Analysis for " + target, // Tên biểu đồ
+                    "Category", // Tiêu đề trục X
+                    "Number of Results", // Tiêu đề trục Y
+                    dataset // Dữ liệu
+            );
+
+            // Chuyển biểu đồ thành hình ảnh PNG
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ChartUtils.writeChartAsPNG(byteArrayOutputStream, barChart, 600, 400);
+
+            // Chuyển byte array thành chuỗi base64
+            String base64Image = Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
+            return "data:image/png;base64," + base64Image; // Trả về chuỗi base64
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

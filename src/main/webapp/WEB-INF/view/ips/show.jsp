@@ -140,7 +140,7 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header text-center">
-                            <h4><i class="fas fa-globe"></i> Analyze IP Address</h4>
+                            <h4><i class="fas fa-network-wired"></i> Analyze IP Address</h4>
                         </div>
                         <div class="card-body">
                             <form action="/analyze/ip" method="post">
