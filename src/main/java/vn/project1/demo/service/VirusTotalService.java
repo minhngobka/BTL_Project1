@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import vn.project1.demo.domain.model.AnalysisStats;
+
 @Service
 public class VirusTotalService {
 
@@ -145,7 +147,8 @@ public class VirusTotalService {
         }
     }
 
-    public String creatBarChart(String response, String target) {
+    public AnalysisStats createAnalysisStats(String response) {
+        AnalysisStats analysisStats = new AnalysisStats();
         try {
             // Khởi tạo ObjectMapper của Jackson
             ObjectMapper objectMapper = new ObjectMapper();
@@ -169,6 +172,28 @@ public class VirusTotalService {
             int harmless = (Integer) statsMap.getOrDefault("harmless", 0);
             int suspicious = (Integer) statsMap.getOrDefault("suspicious", 0);
             int timeout = (Integer) statsMap.getOrDefault("timeout", 0);
+
+            analysisStats.setMalicious(malicious);
+            analysisStats.setUndetected(undetected);
+            analysisStats.setHarmless(harmless);
+            analysisStats.setSuspicious(suspicious);
+            analysisStats.setTimeout(timeout);
+
+            return analysisStats;
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String creatBarChart(AnalysisStats analysisStats, String target) {
+        try {
+            int malicious = analysisStats.getMalicious();
+            int undetected = analysisStats.getUndetected();
+            int harmless = analysisStats.getHarmless();
+            int suspicious = analysisStats.getSuspicious();
+            int timeout = analysisStats.getTimeout();
 
             // Tạo dataset cho biểu đồ cột
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();

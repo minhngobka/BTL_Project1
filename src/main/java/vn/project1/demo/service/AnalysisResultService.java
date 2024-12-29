@@ -1,5 +1,7 @@
 package vn.project1.demo.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import vn.project1.demo.domain.AnalysisResult;
@@ -16,5 +18,9 @@ public class AnalysisResultService {
 
     public void handleSaveAnalysisResult(AnalysisResult analysisResult) {
         this.analysisResultRepository.save(analysisResult);
+    }
+
+    public List<AnalysisResult> fetchAllAnalysisResults() {
+        return this.analysisResultRepository.findAll();
     }
 }

@@ -15,8 +15,10 @@ public class AnalysisResult {
     private long id;
 
     private String type;
+    private String status;
     private String target;
     private String result;
+    private String analysisTime;
 
     public long getId() {
         return id;
@@ -34,6 +36,14 @@ public class AnalysisResult {
         this.type = type;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getTarget() {
         return target;
     }
@@ -48,6 +58,14 @@ public class AnalysisResult {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public String getAnalysisTime() {
+        return analysisTime;
+    }
+
+    public void setAnalysisTime(String analysisTime) {
+        this.analysisTime = analysisTime;
     }
 
 }

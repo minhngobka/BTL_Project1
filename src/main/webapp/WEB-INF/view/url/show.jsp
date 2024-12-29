@@ -132,6 +132,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/analyze/domain"><i class="fas fa-globe"></i> Domain</a>
                 </li>
+                <li class="nav-item ms-auto">
+                    <a class="nav-link" href="/show">Result</a>
+                </li>
             </ul>
 
             <!-- URL Analysis Form -->

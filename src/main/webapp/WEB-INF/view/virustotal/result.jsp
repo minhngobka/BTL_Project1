@@ -49,6 +49,8 @@
                         <h5 class="card-title">Thông tin phân tích:</h5>
                         <p><strong>Loại:</strong> ${analysisResult.type}</p>
                         <p><strong>Đối tượng:</strong> ${analysisResult.target}</p>
+                        <p><strong>Ket qua:</strong> ${analysisResult.result}</p>
+                        <p><strong>Thoi gian:</strong> ${analysisResult.analysisTime}</p>
                         <div>
                             <!-- Hiển thị biểu đồ -->
                             <img src="${chart}" alt="Chart" />
@@ -72,7 +74,7 @@
 
             <script>
                 // Lấy giá trị JSON từ server
-                var jsonString = '${analysisResult.result}'; // Dữ liệu từ server (chuỗi JSON)
+                var jsonString = '${result}'; // Dữ liệu từ server (chuỗi JSON)
 
                 if (jsonString && jsonString.trim()) {
                     try {
