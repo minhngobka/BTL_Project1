@@ -2,7 +2,6 @@ package vn.project1.demo.service;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -34,15 +33,16 @@ public class ExportCsvService {
         CSVWriter csvWriter = new CSVWriter(writer);
 
         // Ghi header
-        String[] header = { "Type", "Name/File", "Detection Ratio", "Analysis Time" };
+        String[] header = { "Type", "Name/File", "Detection Ratio", "Status", "Analysis Time" };
         csvWriter.writeNext(header);
 
         // Ghi dữ liệu
         for (AnalysisResult result : analysisResults) {
             String[] data = {
                     result.getType(),
-                    result.getTarget(),
-                    result.getResult(),
+                    result.getName(),
+                    result.getDetectionRatio(),
+                    result.getStatus(),
                     result.getAnalysisTime()
             };
             csvWriter.writeNext(data);

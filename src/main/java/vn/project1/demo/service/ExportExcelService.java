@@ -21,7 +21,7 @@ public class ExportExcelService {
 
     public void export(HttpServletResponse response) throws IOException {
         // Cột tiêu đề và dữ liệu mẫu
-        String[] columns = { "STT", "Loại", "Tên/Tệp", "Tỷ lệ phát hiện", "Thời gian phân tích" };
+        String[] columns = { "Id", "Type", "Name/File", "Detection Ratio", "Status", "Analysis Time" };
         List<AnalysisResult> analysisResults = this.analysisResultService.fetchAllAnalysisResults();
 
         // Tạo workbook và sheet
@@ -41,9 +41,10 @@ public class ExportExcelService {
             Row row = sheet.createRow(rowIndex++);
             row.createCell(0).setCellValue(result.getId());
             row.createCell(1).setCellValue(result.getType());
-            row.createCell(2).setCellValue(result.getTarget());
-            row.createCell(3).setCellValue(result.getResult());
-            row.createCell(4).setCellValue(result.getAnalysisTime());
+            row.createCell(2).setCellValue(result.getName());
+            row.createCell(3).setCellValue(result.getDetectionRatio());
+            row.createCell(4).setCellValue(result.getStatus());
+            row.createCell(5).setCellValue(result.getAnalysisTime());
         }
 
         // Tự động điều chỉnh độ rộng cột

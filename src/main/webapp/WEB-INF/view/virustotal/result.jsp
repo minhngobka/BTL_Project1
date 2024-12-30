@@ -48,8 +48,9 @@
                     <div class="card-body">
                         <h5 class="card-title">Thông tin phân tích:</h5>
                         <p><strong>Loại:</strong> ${analysisResult.type}</p>
-                        <p><strong>Đối tượng:</strong> ${analysisResult.target}</p>
-                        <p><strong>Ket qua:</strong> ${analysisResult.result}</p>
+                        <p><strong>Đối tượng:</strong> ${analysisResult.name}</p>
+                        <p><strong>Ket qua:</strong> ${analysisResult.detectionRatio}</p>
+                        <p><strong>Trang thai:</strong> ${analysisResult.status}</p>
                         <p><strong>Thoi gian:</strong> ${analysisResult.analysisTime}</p>
                         <div>
                             <!-- Hiển thị biểu đồ -->

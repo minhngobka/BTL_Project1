@@ -16,8 +16,8 @@ public class AnalysisResult {
 
     private String type;
     private String status;
-    private String target;
-    private String result;
+    private String name;
+    private String detectionRatio;
     private String analysisTime;
 
     public long getId() {
@@ -44,20 +44,20 @@ public class AnalysisResult {
         this.status = status;
     }
 
-    public String getTarget() {
-        return target;
+    public String getName() {
+        return name;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getResult() {
-        return result;
+    public String getDetectionRatio() {
+        return detectionRatio;
     }
 
-    public void setResult(String result) {
-        this.result = result;
+    public void setDetectionRatio(String detectionRatio) {
+        this.detectionRatio = detectionRatio;
     }
 
     public String getAnalysisTime() {

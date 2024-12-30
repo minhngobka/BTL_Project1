@@ -1,8 +1,6 @@
 package vn.project1.demo.controller;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +13,9 @@ import vn.project1.demo.service.AnalysisResultService;
 import vn.project1.demo.service.ExportCsvService;
 import vn.project1.demo.service.ExportExcelService;
 import vn.project1.demo.service.VirusTotalService;
+import vn.project1.demo.util.AnalysisStatusUtil;
+import vn.project1.demo.util.CurrentTimeUtil;
+
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,12 +80,10 @@ public class VirusTotalController {
 
             AnalysisResult analysisResult = new AnalysisResult();
             analysisResult.setType("url");
-            analysisResult.setTarget(target);
-            analysisResult.setResult(analysisStats.getMalicious() + "/" + totalAnalysis);
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formattedDateTime = now.format(formatter);
-            analysisResult.setAnalysisTime(formattedDateTime);
+            analysisResult.setName(target);
+            analysisResult.setDetectionRatio(analysisStats.getMalicious() + "/" + totalAnalysis);
+            analysisResult.setStatus(AnalysisStatusUtil.analysisStatus(analysisStats));
+            analysisResult.setAnalysisTime(CurrentTimeUtil.currentTime());
             model.addAttribute("analysisResult", analysisResult);
             model.addAttribute("result", result);
 
@@ -119,12 +118,10 @@ public class VirusTotalController {
 
             AnalysisResult analysisResult = new AnalysisResult();
             analysisResult.setType("file");
-            analysisResult.setTarget(file.getOriginalFilename());
-            analysisResult.setResult(analysisStats.getMalicious() + "/" + totalAnalysis);
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formattedDateTime = now.format(formatter);
-            analysisResult.setAnalysisTime(formattedDateTime);
+            analysisResult.setName(file.getOriginalFilename());
+            analysisResult.setDetectionRatio(analysisStats.getMalicious() + "/" + totalAnalysis);
+            analysisResult.setStatus(AnalysisStatusUtil.analysisStatus(analysisStats));
+            analysisResult.setAnalysisTime(CurrentTimeUtil.currentTime());
             model.addAttribute("analysisResult", analysisResult);
             model.addAttribute("result", result);
 
@@ -159,12 +156,10 @@ public class VirusTotalController {
 
             AnalysisResult analysisResult = new AnalysisResult();
             analysisResult.setType("ip_address");
-            analysisResult.setTarget(target);
-            analysisResult.setResult(analysisStats.getMalicious() + "/" + totalAnalysis);
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formattedDateTime = now.format(formatter);
-            analysisResult.setAnalysisTime(formattedDateTime);
+            analysisResult.setName(target);
+            analysisResult.setDetectionRatio(analysisStats.getMalicious() + "/" + totalAnalysis);
+            analysisResult.setStatus(AnalysisStatusUtil.analysisStatus(analysisStats));
+            analysisResult.setAnalysisTime(CurrentTimeUtil.currentTime());
             model.addAttribute("analysisResult", analysisResult);
             model.addAttribute("result", result);
 
@@ -199,12 +194,10 @@ public class VirusTotalController {
 
             AnalysisResult analysisResult = new AnalysisResult();
             analysisResult.setType("domain");
-            analysisResult.setTarget(target);
-            analysisResult.setResult(analysisStats.getMalicious() + "/" + totalAnalysis);
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formattedDateTime = now.format(formatter);
-            analysisResult.setAnalysisTime(formattedDateTime);
+            analysisResult.setName(target);
+            analysisResult.setDetectionRatio(analysisStats.getMalicious() + "/" + totalAnalysis);
+            analysisResult.setStatus(AnalysisStatusUtil.analysisStatus(analysisStats));
+            analysisResult.setAnalysisTime(CurrentTimeUtil.currentTime());
             model.addAttribute("analysisResult", analysisResult);
             model.addAttribute("result", result);
 

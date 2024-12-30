@@ -40,6 +40,7 @@
                                 <th scope="col">Type</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Result</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Analysis Time</th>
                             </tr>
                         </thead>
@@ -48,8 +49,9 @@
                                 <tr>
                                     <th scope="row" class="text-center">${analysisResult.id}</th>
                                     <td>${analysisResult.type}</td>
-                                    <td>${analysisResult.target}</td>
-                                    <td>${analysisResult.result}</td>
+                                    <td>${analysisResult.name}</td>
+                                    <td>${analysisResult.detectionRatio}</td>
+                                    <td>${analysisResult.status}</td>
                                     <td>${analysisResult.analysisTime}</td>
                                 </tr>
                             </c:forEach>
